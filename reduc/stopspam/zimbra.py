@@ -8,7 +8,7 @@ ZMPROV = config.get('shell', 'zmprov')
 ZIMBRA_SERVER = config.get('zimbra', 'server')
 
 
-@command('zimbra-suspend')
+@command('zimbra-suspend', category='zimbra')
 def zimbra_suspend(ids):
     """Suspends zimbra accounts separates by comma."""
     ids = ids.split(',')
@@ -16,7 +16,7 @@ def zimbra_suspend(ids):
         suspend(id)
 
 
-@command('zimbra-reactivate')
+@command('zimbra-reactivate', category='zimbra')
 def zimbra_reactivate(ids):
     """Reactivates zimbra accounts separated by comma."""
     ids = ids.split(',')
@@ -24,7 +24,7 @@ def zimbra_reactivate(ids):
         reactivate(id)
 
 
-@command('zimbra-status')
+@command('zimbra-status', category='zimbra')
 def zimbra_status(ids):
     """Prints status of zimbra accounts separated by comma."""
     ids = ids.split(',')

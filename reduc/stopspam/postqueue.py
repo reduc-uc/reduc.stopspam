@@ -63,7 +63,7 @@ class QueueEntry:
             self.receivers, self.info)
 
 
-@command
+@command(category='queue')
 def postqueue():
     """Gets postfix queue info"""
     queue = get_postqueue()
@@ -78,7 +78,7 @@ def get_postqueue():
     return queue
 
 
-@command('queue-by-senders')
+@command('queue-by-senders', category='queue')
 def queue_by_senders(n=N_ENTRIES):
     """List of senders with more entries in the queue"""
     for sender, entries in get_queue_by_senders(n):
@@ -93,7 +93,7 @@ def get_queue_by_senders(n):
     return lst_queue[:n]
 
 
-@command('queue-by-messages')
+@command('queue-by-messages', category='queue')
 def queue_by_messages(n=N_ENTRIES):
     """List of senders with more messages to be send"""
     for sender, entries in get_senders_by_message(n):
@@ -141,7 +141,7 @@ def cmd_postqueue_p():
         return str(e)
 
 
-@command
+@command(category='queue')
 def rmqueue(mails=[]):
     """Remove the messages queued for the given users.
 

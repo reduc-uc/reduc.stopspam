@@ -11,7 +11,7 @@ MAIL_LOG = config.get('smtp', 'maillog', '/var/log/mail.log')
 N_ENTRIES = 10
 
 
-@command('mailog-by-qmgr')
+@command('maillog-by-qmgr', category='maillog')
 def mailog_by_qmgr(n=N_ENTRIES):
     """List of senders as indicated by qmgr."""
     mail_log = LogFile(MAIL_LOG)
@@ -37,7 +37,7 @@ def get_mail_log_by_qmgr(mail_log, dct=None):
     return process_logfile(mail_log, filter_qmgr, dct)
 
 
-@command('maillog-by-sasl')
+@command('maillog-by-sasl', category='maillog')
 def maillog_by_sasl(n=N_ENTRIES):
     """List of senders as indicated by sasl authentication."""
     mail_log = LogFile(MAIL_LOG)
