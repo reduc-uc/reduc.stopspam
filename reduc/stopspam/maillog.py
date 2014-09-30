@@ -12,7 +12,7 @@ N_ENTRIES = 10
 
 
 @command('maillog-by-qmgr', category='maillog')
-def mailog_by_qmgr(n=N_ENTRIES):
+def maillog_by_qmgr(n=N_ENTRIES):
     """List of senders as indicated by qmgr."""
     mail_log = LogFile(MAIL_LOG)
     for sender, nconn in get_mail_log_by_qmgr(mail_log)[:n]:
