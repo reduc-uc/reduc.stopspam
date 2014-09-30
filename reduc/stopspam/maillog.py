@@ -30,7 +30,7 @@ def get_mail_log_by_qmgr(mail_log, dct=None):
         try:
             part = line.split()
             mail = mail_re.search(part[6]).groups()[0]
-            return mail
+            return mail or None
         except:
             return None
 
@@ -55,7 +55,7 @@ def get_mail_log_by_sasl(mail_log, dct=None):
         try:
             part = line.split()
             mail = part[8].split('=')[1]
-            return mail
+            return mail or None
         except:
             return None
 
