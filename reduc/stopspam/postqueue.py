@@ -96,11 +96,11 @@ def get_queue_by_senders(n):
 @command('queue-by-messages', category='queue')
 def queue_by_messages(n=N_ENTRIES):
     """List of senders with more messages to be send"""
-    for sender, entries in get_senders_by_message(n):
+    for sender, entries in get_queue_by_messages(n):
         print num_of_messages(entries), sender
 
 
-def get_senders_by_message(n=N_ENTRIES):
+def get_queue_by_messages(n=N_ENTRIES):
     """Returns a list of n (sender, [QueueEntry]) sorted by # of messages."""
     queue = get_postqueue()
     lst_queue = dict_from_queue(queue).items()
