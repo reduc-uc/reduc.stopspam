@@ -4,7 +4,7 @@ import logging.config
 from ConfigParser import ConfigParser, NoSectionError
 
 
-CONFIG_FILE = '/etc/stopspam'
+CONFIG_FILE = '/etc/stopspam.cfg'
 DEFAULT_CONFIG = u"""
 [shell]
 postqueue: /usr/local/bin/postqueue
@@ -29,7 +29,24 @@ message: stopspam has detected an irregular activity with the account
 detectors:
 exceptions:
 notify_list:
+enable_suspend: true
 sleep_time: 300
+
+[QueueBySenders]
+threshold: 45
+ttl: 900
+
+[QueueByMessages]
+threshold: 45
+ttl: 900
+
+[MaillogByQmgr]
+threshold: 45
+ttl: 900
+
+[MaillogBySasl]
+threshold: 45
+ttl: 900
 
 # -----------------
 # Log configuration
