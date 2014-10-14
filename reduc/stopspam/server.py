@@ -43,7 +43,7 @@ def serve():
                     suspend(id)
                     logging.info('{0} suspended'.format(id))
                 except Exception, e:
-                    logging.error(str(e))
+                    logging.exception(e)
 
             if ENABLE_NOTIFY:
                 _send_mail(MAIL_TO, id, reason)
