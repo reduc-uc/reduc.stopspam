@@ -72,7 +72,7 @@ class MaillogDetector:
         self.update_entries()
         ids = [(x[0], self.MESSAGE.format(x[1]))
                for x in self.detected_from_entries()
-               if len(x[1]) >= self.threshold]
+               if x[1] >= self.threshold]
         return ids
 
     def update_entries(self, new_entries=None):
@@ -113,8 +113,9 @@ class MaillogDetector:
         self.entries = [x for x in self.entries if x.expire > now]
 
     def time_from_syslog(str):
-        dt = datetime.strptime(str, "%b %d %H:%M:%S")
         # TODO: finish this method. Syslog doesn't give the year
+        dt = datetime.strptime(str, "%b %d %H:%M:%S")
+        return dt
 
 
 class MaillogByQmgr(MaillogDetector):
