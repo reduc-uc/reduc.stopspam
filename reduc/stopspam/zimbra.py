@@ -28,9 +28,10 @@ def zimbra_reactivate(ids):
 def zimbra_status(ids):
     """Prints status of zimbra accounts separated by comma."""
     ids = ids.split(',')
+    print '# id, zimbraAccountStatus, zimbraMailStatus'
     for id in ids:
         stat = status(id)
-        print '{0}: {1}, {2}'.format(id, stat[0], stat[1])
+        print '{0},{1},{2}'.format(id, stat[0], stat[1])
 
 
 def suspend(id):
@@ -47,8 +48,8 @@ def reactivate(id):
 
 def status(id):
     """Gets the status of an account account."""
-    accountStatus = cmd_zmprov_ga(id, 'zimbraAccountStatus')
-    mailStatus = cmd_zmprov_ga(id, 'zimbraMailStatus')
+    accountStatus = cmd_zmprov_ga(id, 'zimbraAccountStatus').split()[-1]
+    mailStatus = cmd_zmprov_ga(id, 'zimbraMailStatus').split()[-1]
     return accountStatus, mailStatus
 
 
@@ -66,6 +67,6 @@ def cmd_zmprov_ga(id, key):
     """Executes shell command 'zmprov ga ...' """
     cmd = sh.Command(ZMPROV)
     try:
-        return cmd('ga', id, key).out
+        return cmd('ga', id, key).stdout
     except sh.ErrorReturnCode, e:
         return str(e)
