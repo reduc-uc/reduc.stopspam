@@ -1,0 +1,8 @@
+#! /bin/bash
+
+# Example run script for use with daemontools
+
+
+exec 2>&1
+exec /usr/local/bin/stopspam serve
+
