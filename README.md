@@ -10,17 +10,20 @@ compromised account send spam.
 
 1. Download and install `reduc.stopspam`:
 
-    git clone git@github.com:reduc-uc/reduc.stopspam.git
-    cd reduc.stopspam
-    # type the following command as root user
-    python setup.py install
+```
+git clone git@github.com:reduc-uc/reduc.stopspam.git
+cd reduc.stopspam
+# type the following command as root user
+python setup.py install
+```
 
 2. It is recommende to install Dan Berstein's
   [daemontools](http://cr.yp.to/daemontools.html) if you want to run `stopspam`
   as a daemon. If you are using debian or ubuntu:
 
-    apt-get install daemontools
-
+```
+apt-get install daemontools
+```
 
 ## Usage
 
@@ -69,9 +72,10 @@ Remove all the messages in postfix queue for the given senders. The senders
 can be indicated by repeating the option `-m` or giving a comma separated
 value:
 
-    stopspam rmqueue -m someid -m otherid
-    stopspam rmqueue -m someid,otherid
-
+```
+stopspam rmqueue -m someid -m otherid
+stopspam rmqueue -m someid,otherid
+```
 
 ### Zimbra Commands
 
@@ -80,20 +84,25 @@ value:
 
 Suspends the zimbra accounts of the comma-separated list of users
 
-    stopspam zimbra-suspend someid,otherid
+```
+stopspam zimbra-suspend someid,otherid
+```
 
 #### zimbra-reactivate
 
 reactivates the zimbra accounts of the comma-separated list of users
 
-    stopspam zimbra-suspend someid,otherid
+```
+stopspam zimbra-suspend someid,otherid
+```
 
 #### zimbra-status
 
 Prints the status of the zimbra accounts of the comma-separated list of users
 
-    stopspam zimbra-suspend someid,otherid
-
+```
+stopspam zimbra-suspend someid,otherid
+```
 
 ### Maillog Commands
 
