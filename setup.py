@@ -13,7 +13,7 @@ version = '0.1.0'
 
 
 long_description = (
-    read('docs/README.rst')
+    read('README.rst')
     + '\n' +
     'Change history\n'
     '**************\n'
