@@ -51,9 +51,9 @@ def serve():
         time.sleep(SLEEP_TIME)
 
 
-def _send_mail(dests, id, reason):
+def _send_mail(dests, id, reason="Stopspam: user suspended"):
     """Sends a mail to admin notifying the suspension of user 'id'."""
     smtp = smtplib.SMTP(MAIL_SERVER)
     for dest in dests:
-        mail = MAIL_MESSAGE.format(dest, reason)
+        mail = MAIL_MESSAGE.format(id, reason)
         smtp.sendmail(MAIL_FROM, dest, mail)
