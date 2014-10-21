@@ -13,24 +13,19 @@ SLEEP_TIME = config.getint('server', 'sleep_time')
 EXCEPTIONS = config.get('server', 'exceptions', '').split()
 ENABLE_SUSPEND = config.getboolean('server', 'enable_suspend')
 
-ENABLE_NOTIFY = config.getboolean('notify', 'enable_notify')
-MAIL_SERVER = config.get('notify', 'mail_server')
-MAIL_FROM = config.get('notify', 'mail_from')
-MAIL_TO = config.get('notify', 'mail_to', '').split()
-MAIL_MESSAGE = config.get('notify', 'message', 'Spam from {0}: {1}.')
-
 
 @command
 def serve():
     "Server to detect and suspend accounts that send spam."
     logging.info('Starting stopspam daemon')
-    commands = [command for command in get_detectors(config)]
+    detectors = [detector for detector in get_detectors(config)]
+    notify = MailNotify(config)
 
     while True:
         cases = []
-        for command in commands:
+        for detector in detectors:
             try:
-                cases += [(id, reason) for (id, reason) in command.execute()
+                cases += [(id, reason) for (id, reason) in detector.execute()
                           if id not in EXCEPTIONS]
             except Exception, e:
                 logging.error(str(e))
@@ -45,15 +40,26 @@ def serve():
                 except Exception, e:
                     logging.exception(e)
 
-            if ENABLE_NOTIFY:
-                _send_mail(MAIL_TO, id, reason)
+            notify.execute(id, reason)
 
         time.sleep(SLEEP_TIME)
 
 
-def _send_mail(dests, id, reason):
-    """Sends a mail to admin notifying the suspension of user 'id'."""
-    smtp = smtplib.SMTP(MAIL_SERVER)
-    for dest in dests:
-        mail = MAIL_MESSAGE.format(dest, reason)
-        smtp.sendmail(MAIL_FROM, dest, mail)
+class MailNotify:
+    """Mail notification Command."""
+    def __init__(self, config):
+        self.enable_notify = config.getboolean('notify', 'enable_notify')
+        self.mail_server = config.get('notify', 'mail_server')
+        self.mail_from = config.get('notify', 'mail_from')
+        self.mail_to = config.get('notify', 'mail_to', '').split()
+        self.mail_message = config.get('notify',
+                                       'message', 'Spam from {0}: {1}.')
+        self.smtp = smtplib.SMTP(self.mail_server)
+
+    def execute(self, id, reason=''):
+        if not self.enable_notify:
+            return
+
+        for dest in self.mail_to:
+            mail = self.mail_message.format(id, reason)
+            self.smtp.sendmail(self.mail_from, dest, mail)
