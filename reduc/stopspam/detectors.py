@@ -72,7 +72,7 @@ class MaillogDetector:
         self.update_entries()
         ids = [(x[0], self.MESSAGE.format(x[1]))
                for x in self.detected_from_entries()
-               if x[1] >= self.threshold]
+               if x[0] and x[1] >= self.threshold]
         return ids
 
     def update_entries(self, new_entries=None):

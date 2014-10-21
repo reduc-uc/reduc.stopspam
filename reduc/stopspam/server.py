@@ -63,3 +63,4 @@ class MailNotify:
         for dest in self.mail_to:
             mail = self.mail_message.format(id, reason)
             self.smtp.sendmail(self.mail_from, dest, mail)
+
