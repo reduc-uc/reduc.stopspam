@@ -22,10 +22,12 @@ enable_notify: false
 mail_server: smtp.blah.com
 mail_from: stopspam@blah.com
 mail_to: a@blah.com b@blah.com
-message: stopspam has detected an irregular activity with the account
+message: Subject: Stopspam: {0} {1}
+    stopspam has detected an irregular activity with the account
     {0}: {1}
 
 [server]
+suspend: ZimbraSuspend
 detectors:
 exceptions:
 notify_list:

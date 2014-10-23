@@ -5,7 +5,7 @@ import logging
 from commandr import command
 
 from reduc.stopspam import config
-from reduc.stopspam.zimbra import suspend
+from reduc.stopspam.suspend import get_suspend
 from reduc.stopspam.detectors import get_detectors
 
 
@@ -19,6 +19,7 @@ def serve():
     "Server to detect and suspend accounts that send spam."
     logging.info('Starting stopspam daemon')
     detectors = [detector for detector in get_detectors(config)]
+    suspend = get_suspend(config)
     notify = MailNotify(config)
 
     while True:
@@ -32,14 +33,7 @@ def serve():
 
         for id, reason in cases:
             logging.info('{0}: {1}'.format(id, reason))
-
-            if ENABLE_SUSPEND:
-                try:
-                    suspend(id)
-                    logging.info('{0} suspended'.format(id))
-                except Exception, e:
-                    logging.exception(e)
-
+            suspend(id)
             notify.execute(id, reason)
 
         time.sleep(SLEEP_TIME)
@@ -63,4 +57,3 @@ class MailNotify:
         for dest in self.mail_to:
             mail = self.mail_message.format(id, reason)
             self.smtp.sendmail(self.mail_from, dest, mail)
-
