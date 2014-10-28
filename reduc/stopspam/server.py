@@ -33,7 +33,7 @@ def serve():
 
         for id, reason in cases:
             logging.info('{0}: {1}'.format(id, reason))
-            suspend(id)
+            suspend.execute(id)
             notify.execute(id, reason)
 
         time.sleep(SLEEP_TIME)

@@ -30,7 +30,6 @@ message: Subject: Stopspam: {0} {1}
 suspend: ZimbraSuspend
 detectors:
 exceptions:
-notify_list:
 enable_suspend: true
 sleep_time: 300
 
