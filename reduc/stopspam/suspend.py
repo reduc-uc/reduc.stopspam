@@ -1,6 +1,6 @@
 import logging
 import ldap
-from  ldap import modlist
+from ldap import modlist
 
 from reduc.stopspam.zimbra import suspend as zimbra_suspend
 
