@@ -5,19 +5,19 @@ import logging
 from commandr import command
 
 from reduc.stopspam import config
+from reduc.stopspam.postqueue import rmqueue
 from reduc.stopspam.suspend import get_suspend
 from reduc.stopspam.detectors import get_detectors
-
-
-SLEEP_TIME = config.getint('server', 'sleep_time')
-EXCEPTIONS = config.get('server', 'exceptions', '').split()
-ENABLE_SUSPEND = config.getboolean('server', 'enable_suspend')
 
 
 @command
 def serve():
     "Server to detect and suspend accounts that send spam."
     logging.info('Starting stopspam daemon')
+    sleep_time = config.getint('server', 'sleep_time')
+    exceptions = config.get('server', 'exceptions', '').split()
+    domain = config.get('server', 'domain', '')
+
     detectors = [detector for detector in get_detectors(config)]
     suspend = get_suspend(config)
     notify = MailNotify(config)
@@ -27,16 +27,18 @@ def serve():
         for detector in detectors:
             try:
                 cases += [(id, reason) for (id, reason) in detector.execute()
-                          if id not in EXCEPTIONS]
+                          if id not in exceptions
+                          and domain in id]
             except Exception, e:
                 logging.error(str(e))
 
         for id, reason in cases:
             logging.info('{0}: {1}'.format(id, reason))
             suspend.execute(id)
+            rmqueue(id)
             notify.execute(id, reason)
 
-        time.sleep(SLEEP_TIME)
+        time.sleep(sleep_time)
 
 
 class MailNotify:
