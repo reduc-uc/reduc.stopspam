@@ -5,9 +5,9 @@ import logging
 from commandr import command
 
 from reduc.stopspam import config
-from reduc.stopspam.postqueue import rmqueue
-from reduc.stopspam.suspend import get_suspend
 from reduc.stopspam.detectors import get_detectors
+from reduc.stopspam.command_queue import rmqueue
+from reduc.stopspam.command_account import account_suspend
 
 
 @command
@@ -19,7 +19,6 @@ def serve():
     domain = config.get('server', 'domain', '')
 
     detectors = [detector for detector in get_detectors(config)]
-    suspend = get_suspend(config)
     notify = MailNotify(config)
 
     while True:
@@ -34,8 +33,8 @@ def serve():
 
         for id, reason in cases:
             logging.info('{0}: {1}'.format(id, reason))
-            suspend.execute(id)
             rmqueue(id)
+            account_suspend(id)
             notify.execute(id, reason)
 
         time.sleep(sleep_time)
