@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 from commandr import Run
-from reduc.stopspam.postqueue import postqueue, queue_by_senders, \
+from reduc.stopspam.command_queue import postqueue, queue_by_senders, \
     queue_by_messages, rmqueue
 from reduc.stopspam.command_account import account_status, \
     account_suspend, account_reactivate

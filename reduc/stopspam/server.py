@@ -5,8 +5,8 @@ import logging
 from commandr import command
 
 from reduc.stopspam import config
-from reduc.stopspam.postqueue import rmqueue
 from reduc.stopspam.detectors import get_detectors
+from reduc.stopspam.command_queue import rmqueue
 from reduc.stopspam.command_account import account_suspend
 
 

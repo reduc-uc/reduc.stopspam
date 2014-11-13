@@ -6,24 +6,11 @@ from ConfigParser import ConfigParser, NoSectionError
 
 CONFIG_FILE = '/etc/stopspam.cfg'
 DEFAULT_CONFIG = u"""
-[shell]
+[files]
 postqueue: /usr/local/bin/postqueue
 rmqueue: /usr/local/bin/rmqueue
-
-[zimbra]
 zmprov: /opt/zimbra/bin/zmprov
-
-[smtp]
 maillog: /var/log/mail.log
-
-[notify]
-enable_notify: false
-mail_server: smtp.blah.com
-mail_from: stopspam@blah.com
-mail_to: a@blah.com b@blah.com
-message: Subject: Stopspam: {0} {1}
-    stopspam has detected an irregular activity with the account
-    {0}: {1}
 
 [server]
 account: Zimbra
@@ -32,6 +19,19 @@ exceptions:
 domain:
 enable_suspend: true
 sleep_time: 300
+
+[notify]
+enable_notify: false
+mail_server: smtp.blah.com
+mail_from: stopspam@blah.com
+mail_to: a@blah.com b@blah.com
+message: Subject: Stopspam: {0} {1}
+  stopspam has detected an irregular activity with the account
+  {0}: {1}
+
+# -----------------
+# Detectors
+# -----------------
 
 [QueueBySenders]
 threshold: 45

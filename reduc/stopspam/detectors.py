@@ -4,7 +4,7 @@ from datetime import datetime
 from itertools import groupby
 from collections import namedtuple
 
-from reduc.stopspam.postqueue import get_queue_by_senders, \
+from reduc.stopspam.command_queue import get_queue_by_senders, \
     get_queue_by_messages
 
 from reduc.stopspam.logfile import LogFile
@@ -61,7 +61,7 @@ class MaillogDetector:
     MESSAGE = '{0} messages in maillog'
 
     def __init__(self, config):
-        maillog = config.get('smtp', 'maillog')
+        maillog = config.get('files', 'maillog')
         self.logfile = LogFile(maillog)
         self.logfile.seek_end()
         self.entries = []
