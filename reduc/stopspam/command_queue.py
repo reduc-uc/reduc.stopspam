@@ -6,8 +6,8 @@ from commandr import command
 from reduc.stopspam import config
 
 
-POSTQUEUE = config.get('shell', 'postqueue')
-RMQUEUE = config.get('shell', 'rmqueue')
+POSTQUEUE = config.get('files', 'postqueue')
+RMQUEUE = config.get('files', 'rmqueue')
 N_ENTRIES = 10
 
 
