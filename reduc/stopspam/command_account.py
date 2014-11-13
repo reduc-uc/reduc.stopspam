@@ -36,12 +36,12 @@ def account_reactivate(ids):
 
 def _account_factory():
     """Returns the right handler for account."""
-    account_type = config.get('server', 'account', 'Zimbra')
-    if account_type == 'Zimbra':
-        zmprov = config.get('Zimbra', 'zmprov')
+    account_type = config.get('server', 'account', 'zimbra').lower()
+    if account_type == 'zimbra':
+        zmprov = config.get('zimbra', 'zmprov')
         account = ZimbraAccount(zmprov)
 
-    elif account_type == 'LDAP':
+    elif account_type == 'ldap':
         uri = config.get('LDAP', 'uri')
         base_dn = config.get('LDAP', 'base_dn')
         root_dn = config.get('LDAP', 'root_dn')

@@ -11,7 +11,6 @@ postqueue: /usr/local/bin/postqueue
 rmqueue: /usr/local/bin/rmqueue
 
 [zimbra]
-server: noserver.nodomain
 zmprov: /opt/zimbra/bin/zmprov
 
 [smtp]
