@@ -4,7 +4,7 @@ from datetime import datetime
 from itertools import groupby
 from collections import namedtuple
 
-from reduc.stopspam.postqueue import get_queue_by_senders, \
+from reduc.stopspam.command_queue import get_queue_by_senders, \
     get_queue_by_messages
 
 from reduc.stopspam.logfile import LogFile
@@ -61,7 +61,7 @@ class MaillogDetector:
     MESSAGE = '{0} messages in maillog'
 
     def __init__(self, config):
-        maillog = config.get('smtp', 'maillog')
+        maillog = config.get('files', 'maillog')
         self.logfile = LogFile(maillog)
         self.logfile.seek_end()
         self.entries = []
@@ -153,12 +153,17 @@ class MaillogBySasl(MaillogDetector):
     def __init__(self, config):
         MaillogDetector.__init__(self, config)
         self.threshold = config.getint('MaillogBySasl', 'threshold')
-        self.ttl = config.getint('MaillogByQmgr', 'ttl')
+        self.ttl = config.getint('MaillogBySasl', 'ttl')
+        try:
+            self.domain = config.get('MaillogBySasl', 'domain')
+        except:
+            self.domain = config.get('server', 'domain', '')
 
     def _entry_from_line(self, line):
         """Converts a logfile line in an entry."""
         part = line.split()
-        mail = part[8].split('=')[1]
+        uid = part[8].split('=')[1]
+        mail = '{0}@{1}'.format(uid, self.domain)
         # We're cheating here. Instead of parsing the (#$%# incomplete)
         # date given by syslog, we'll pretend all they happened early.
         # This means that TTL should be bigger than sleep_time

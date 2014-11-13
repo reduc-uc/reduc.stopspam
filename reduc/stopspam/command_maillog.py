@@ -7,7 +7,7 @@ from reduc.stopspam import config
 from reduc.stopspam.logfile import LogFile
 
 
-MAIL_LOG = config.get('smtp', 'maillog', '/var/log/mail.log')
+MAIL_LOG = config.get('files', 'maillog', '/var/log/mail.log')
 N_ENTRIES = 10
 
 

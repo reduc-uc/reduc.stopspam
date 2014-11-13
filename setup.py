@@ -47,6 +47,7 @@ setup(name='reduc.stopspam',
           'setuptools',
           'sh',
           'commandr',
+          'python-ldap',
       ],
       tests_require=[
           'nose',

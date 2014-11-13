@@ -1,12 +1,12 @@
 #! /usr/bin/env python
 
 from commandr import Run
-from reduc.stopspam.postqueue import postqueue, queue_by_senders, \
-    queue_by_messages, rmqueue
-from reduc.stopspam.zimbra import zimbra_suspend, zimbra_reactivate, \
-    zimbra_status
-from reduc.stopspam.maillog import maillog_by_qmgr, maillog_by_sasl
-from reduc.stopspam.server import serve
+from reduc.stopspam.command_queue import \
+    postqueue, queue_by_senders, queue_by_messages, rmqueue
+from reduc.stopspam.command_account import \
+    account_status, account_suspend, account_reactivate
+from reduc.stopspam.command_maillog import maillog_by_qmgr, maillog_by_sasl
+from reduc.stopspam.command_server import serve
 
 
 if __name__ == '__main__':
