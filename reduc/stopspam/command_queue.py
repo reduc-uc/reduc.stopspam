@@ -7,7 +7,7 @@ from reduc.stopspam import config
 
 
 POSTQUEUE = config.get('files', 'postqueue')
-RMQUEUE = config.get('files', 'rmqueue')
+POSTSUPER = config.get('files', 'postsuper')
 N_ENTRIES = 10
 
 
@@ -147,18 +147,14 @@ def rmqueue(mails=[]):
 
     The users can be given as a list of mails or a list of comma separated
     mails."""
+    command = sh.Command(POSTSUPER)
     mails = [y for x in [x.split(',') for x in mails]
              for y in x]
-    for mail in mails:
-        print "Deleting messages from '{0}'...".format(mail)
-        print cmd_rmqueue(mail)
-
-
-def cmd_rmqueue(mail):
-    """Executes shell command for 'rmqueue'."""
-    cmd = sh.Command(RMQUEUE)
-    try:
-        out = cmd(mail)
-        return out.stdout
-    except sh.ErrorReturnCode, e:
-        return '    ' + str(e).splitlines()[-1]
+    ids = [x.id for x in get_postqueue() if x.sender in mails]
+    for id in ids:
+        try:
+            print id,
+            command('-d', id)
+            print 'deleted'
+        except:
+            print 'ERROR'

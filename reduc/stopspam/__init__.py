@@ -8,7 +8,7 @@ CONFIG_FILE = '/etc/stopspam.cfg'
 DEFAULT_CONFIG = u"""
 [files]
 postqueue: /usr/local/bin/postqueue
-rmqueue: /usr/local/bin/rmqueue
+postsuper: /usr/local/bin/postsuper
 zmprov: /opt/zimbra/bin/zmprov
 maillog: /var/log/mail.log
 
