@@ -9,10 +9,10 @@ DEFAULT_CONFIG = u"""
 [shell]
 postqueue: /usr/local/bin/postqueue
 rmqueue: /usr/local/bin/rmqueue
-zmprov: /opt/zimbra/bin/zmprov
 
 [zimbra]
 server: noserver.nodomain
+zmprov: /opt/zimbra/bin/zmprov
 
 [smtp]
 maillog: /var/log/mail.log
@@ -27,7 +27,7 @@ message: Subject: Stopspam: {0} {1}
     {0}: {1}
 
 [server]
-suspend: ZimbraSuspend
+account: Zimbra
 detectors:
 exceptions:
 domain:
