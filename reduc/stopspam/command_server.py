@@ -22,20 +22,26 @@ def serve():
     notify = MailNotify(config)
 
     while True:
-        cases = []
         for detector in detectors:
             try:
-                cases += [(id, reason) for (id, reason) in detector.execute()
-                          if id not in exceptions
-                          and domain in id]
-            except Exception, e:
-                logging.error(str(e))
+                id, reason = '', ''
+                cases = detector.execute()
 
-        for id, reason in cases:
-            logging.info('{0}: {1}'.format(id, reason))
-            rmqueue(id)
-            account_suspend(id)
-            notify.execute(id, reason)
+                for id, reason in cases:
+                    if id in exceptions:
+                        continue
+
+                    if domain not in id:
+                        continue
+
+                    logging.info('suspending {0}: {1}'.format(id, reason))
+                    rmqueue(id)
+                    account_suspend(id)
+                    notify.execute(id, reason)
+
+            except Exception, e:
+                logging.error('{0}: {1} - {2}'.format(detector, id, reason))
+                logging.exception(e)
 
         time.sleep(sleep_time)
 
