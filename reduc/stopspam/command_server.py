@@ -61,6 +61,8 @@ class MailNotify:
         if not self.enable_notify:
             return
 
+        self.smtp.connect(self.mail_server)
         for dest in self.mail_to:
             mail = self.mail_message.format(id, reason)
             self.smtp.sendmail(self.mail_from, dest, mail)
+        self.smtp.quit()
