@@ -55,13 +55,14 @@ class MailNotify:
         self.mail_to = config.get('notify', 'mail_to', '').split()
         self.mail_message = config.get('notify',
                                        'message', 'Spam from {0}: {1}.')
-        self.smtp = smtplib.SMTP(self.mail_server)
 
     def execute(self, id, reason=''):
         if not self.enable_notify:
             return
 
+        self.smtp = smtplib.SMTP(self.mail_server)
         self.smtp.connect(self.mail_server)
+
         for dest in self.mail_to:
             mail = self.mail_message.format(id, reason)
             self.smtp.sendmail(self.mail_from, dest, mail)
