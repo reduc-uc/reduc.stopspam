@@ -65,7 +65,6 @@ class MaillogDetector:
         self.logfile = LogFile(maillog)
         self.logfile.seek_end()
         self.entries = []
-        self.update_entries()
 
     def execute(self):
         self._purge_old_entries()
@@ -174,8 +173,9 @@ class MaillogBySasl(MaillogDetector):
         # date given by syslog, we'll pretend all they happened early.
         # This means that TTL should be bigger than sleep_time
         expire = time() + self.ttl
-        return MailEntry(mail, expire)
+        entry = MailEntry(mail, expire)
+        return entry
 
     def _filter_line(self, line):
         """True if this logfile line is relevant for this detector."""
-        return 'sasl_user' in line and '@{0}'.format(self.domain) in line
+        return 'sasl_user' in line
