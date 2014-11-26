@@ -92,11 +92,17 @@ class MaillogDetector:
 
     def _get_new_entries(self):
         """Return list of new entries read from logfile."""
-        lines = self.logfile.read().splitlines()
+        lines = self._get_new_lines()
         new_entries = [self._entry_from_line(line)
                        for line in lines
                        if self._filter_line(line)]
         return new_entries
+
+    def _get_new_lines(self):
+        """Return the new lines of the log file."""
+        lines = [line for line in self.logfile.read().splitlines()
+                 if 'warning:' not in line]
+        return lines
 
     def _entry_from_line(self, line):
         """Converts a logfile line in an entry."""
@@ -173,4 +179,3 @@ class MaillogBySasl(MaillogDetector):
     def _filter_line(self, line):
         """True if this logfile line is relevant for this detector."""
         return 'sasl_user' in line and '@{0}'.format(self.domain) in line
-
