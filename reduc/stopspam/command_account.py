@@ -13,7 +13,10 @@ def account_status(ids):
     print '# id, zimbraAccountStatus, zimbraMailStatus'
     for id in ids:
         stat = account.status(id)
-        print '{0},{1},{2}'.format(id, stat[0], stat[1])
+        if stat is None:
+            print "{0} DOESN'T EXISTS".format(id)
+        else:
+            print '{0},{1},{2}'.format(id, stat[0], stat[1])
 
 
 @command('account-suspend', category='account')

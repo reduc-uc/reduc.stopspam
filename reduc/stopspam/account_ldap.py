@@ -19,6 +19,8 @@ class LDAPAccount(IAccount):
         """ Returns the status of the given user."""
         self._bind()
         dn, user = self._find(id)
+        if dn is None:
+            return None
         accountStatus = self._first(user, 'zimbraAccountStatus', '???')
         mailStatus = self._first(user, 'zimbraMailStatus', '???')
         return accountStatus, mailStatus
