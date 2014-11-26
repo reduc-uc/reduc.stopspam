@@ -22,7 +22,11 @@ def account_suspend(ids):
     account = _account_factory()
     ids = ids.split(',')
     for id in ids:
-        account.suspend(id)
+        print id,
+        if account.suspend(id):
+            print 'suspended'
+        else:
+            print 'not found'
 
 
 @command('account-reactivate', category='account')
@@ -31,7 +35,11 @@ def account_reactivate(ids):
     account = _account_factory()
     ids = ids.split(',')
     for id in ids:
-        account.reactivate(id)
+        print id,
+        if account.reactivate(id):
+            print 'reactivated'
+        else:
+            print 'not found'
 
 
 def _account_factory():

@@ -19,11 +19,13 @@ class ZimbraAccount(IAccount):
         """ Suspends the given user."""
         self._zmprov_ma(id, 'zimbraAccountStatus', 'locked')
         self._zmprov_ma(id, 'zimbraMailStatus', 'disabled')
+        return True
 
     def reactivate(self, id):
         """Reactivates the give user."""
         self._zmprov_ma(id, 'zimbraAccountStatus', 'active')
         self._zmprov_ma(id, 'zimbraMailStatus', 'enabled')
+        return True
 
     def _zmprov_ma(self, id, key, val):
         """Executes shell command 'zmprov ma ...' """

@@ -27,21 +27,31 @@ class LDAPAccount(IAccount):
         """ Suspends the given user. """
         self._bind()
         dn, user = self._find(id)
+
+        if dn is None:
+            return False
+
         new_user = user.copy()
         new_user['zimbraAccountStatus'] = 'locked'
         new_user['zimbraMailStatus'] = 'disabled'
         ldif = modlist.modifyModlist(user, new_user)
         self.server.modify_s(dn, ldif)
+        return True
 
     def reactivate(self, id):
         """ Reactivates the give user. """
         self._bind()
         dn, user = self._find(id)
+
+        if dn is None:
+            return False
+
         new_user = user.copy()
         new_user['zimbraAccountStatus'] = 'active'
         new_user['zimbraMailStatus'] = 'enabled'
         ldif = modlist.modifyModlist(user, new_user)
         self.server.modify_s(dn, ldif)
+        return True
 
     def _bind(self):
         self.server = ldap.ldapobject.ReconnectLDAPObject(self.uri)
@@ -52,6 +62,10 @@ class LDAPAccount(IAccount):
                                    ldap.SCOPE_SUBTREE,
                                    self.filter.format(id))
         _type, data = self.server.result(msgid, all=0)
+
+        if not len(data):
+            return None, None
+
         dn, dct = data[0]
         return dn, dct
 
