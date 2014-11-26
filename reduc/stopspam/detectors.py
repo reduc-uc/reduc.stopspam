@@ -172,4 +172,5 @@ class MaillogBySasl(MaillogDetector):
 
     def _filter_line(self, line):
         """True if this logfile line is relevant for this detector."""
-        return 'sasl_user' in line
+        return 'sasl_user' in line and '@{0}'.format(self.domain) in line
+
