@@ -36,6 +36,7 @@ class LDAPAccount(IAccount):
         new_user = user.copy()
         new_user['zimbraAccountStatus'] = 'locked'
         new_user['zimbraMailStatus'] = 'disabled'
+        new_user['userPassword'] = '**spam**' + new_user['userPassword']
         ldif = modlist.modifyModlist(user, new_user)
         self.server.modify_s(dn, ldif)
         return True
@@ -51,6 +52,8 @@ class LDAPAccount(IAccount):
         new_user = user.copy()
         new_user['zimbraAccountStatus'] = 'active'
         new_user['zimbraMailStatus'] = 'enabled'
+        new_user['userPassword'] = new_user['userPassword'].replace('**spam**',
+                                                                    '')
         ldif = modlist.modifyModlist(user, new_user)
         self.server.modify_s(dn, ldif)
         return True
