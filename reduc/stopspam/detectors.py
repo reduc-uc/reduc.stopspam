@@ -31,11 +31,16 @@ class QueueBySenders:
 
     def __init__(self, config):
         self.threshold = config.getint('QueueBySenders', 'threshold')
+        try:
+            self.domain = config.get('QueueBySenders', 'domain')
+        except:
+            self.domain = config.get('server', 'domain', '')
 
     def execute(self):
         ids = [(x[0], '{0} entries in mail queue'.format(len(x[1])))
                for x in get_queue_by_senders(None)
-               if len(x[1]) >= self.threshold]
+               if len(x[1]) >= self.threshold
+               and '@{0}'.format(self.domain) in x[0]]
         return ids
 
 
@@ -45,11 +50,16 @@ class QueueByMessages:
 
     def __init__(self, config):
         self.threshold = config.getint('QueueByMessages', 'threshold')
+        try:
+            self.domain = config.get('QueueByMessages', 'domain')
+        except:
+            self.domain = config.get('server', 'domain', '')
 
     def execute(self):
         ids = [(x[0], '{0} messages in mail queue'.format(len(x[1])))
                for x in get_queue_by_messages(None)
-               if len(x[1]) >= self.threshold]
+               if len(x[1]) >= self.threshold
+               and '@{0}'.format(self.domain) in x[0]]
         return ids
 
 
