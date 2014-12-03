@@ -60,10 +60,12 @@ class MailNotify:
         if not self.enable_notify:
             return
 
-        self.smtp = smtplib.SMTP(self.mail_server)
-        self.smtp.connect(self.mail_server)
-
+        mail = self.mail_message.format(id, reason)
         for dest in self.mail_to:
-            mail = self.mail_message.format(id, reason)
-            self.smtp.sendmail(self.mail_from, dest, mail)
-        self.smtp.quit()
+            self._send_mail(self.mail_from, dest, mail)
+
+    def _send_mail(self, from_, dest, mail):
+        smtp = smtplib.SMTP()
+        smtp.connect(self.mail_server, 25)
+        smtp.sendmail(from_, dest, mail)
+        smtp.quit()
