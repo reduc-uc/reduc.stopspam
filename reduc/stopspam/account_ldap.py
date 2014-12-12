@@ -33,10 +33,13 @@ class LDAPAccount(IAccount):
         if dn is None:
             return False
 
+        pwd = self._first(user, 'userPassword')
+        if '**spam**' in pwd:
+            return True
+
         new_user = user.copy()
         new_user['zimbraAccountStatus'] = 'locked'
         new_user['zimbraMailStatus'] = 'disabled'
-        pwd = self._first(new_user, 'userPassword')
         new_user['userPassword'] = '**spam**' + pwd
         ldif = modlist.modifyModlist(user, new_user)
         self.server.modify_s(dn, ldif)
